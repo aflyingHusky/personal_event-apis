@@ -2,7 +2,7 @@
   "name": "personal_event-apis",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/app.ts",
   "scripts": {
     "start": "nodemon src/app.ts",
     "lint": "tslint -p tsconfig.json -c tslint.json",
@@ -25,7 +25,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint:staged && npm run test:dev"
+      "pre-commit": "npm run lint:staged"
     }
   },
   "homepage": "https://github.com/girumod/persional_event-apis#readme",
