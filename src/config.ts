@@ -31,8 +31,8 @@ export class Configurations {
     return Number(process.env.API_PORT)
   }
 
-  get bcryptSalt(): string {
-    return String(process.env.BCRYPT_SALT)
+  get bcryptSalt(): number {
+    return Number(process.env.BCRYPT_SALT)
   }
 
   get jwt_secret(): string {
