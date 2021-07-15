@@ -2,9 +2,9 @@
   "name": "personal_event-apis",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/app.ts",
   "scripts": {
-    "start": "nodemon src/app.ts --unhandled-rejections=strict",
+    "start": "nodemon src/app.ts",
     "lint": "tslint -p tsconfig.json -c tslint.json",
     "lint:staged": "lint-staged",
     "test": "echo \"Error: no test specified\" && exit 1"
