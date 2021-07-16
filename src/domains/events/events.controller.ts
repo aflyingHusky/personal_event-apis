@@ -1,5 +1,5 @@
 import { EventsService } from './events.service'
-import { Request, Response } from 'express'
+import { Response } from 'express'
 
 export class EventsController{
   static eventsService: EventsService
