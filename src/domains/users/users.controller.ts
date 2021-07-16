@@ -24,10 +24,10 @@ export class UsersController{
       })
 
       if (userExisted) {
-        return Promise.reject({
+        throw {
           code: 400,
           message: 'Username Already Exist',
-        })
+        }
       }
 
       const hashedPassword = await bcrypt.hash(password, configsService.bcryptSalt)
