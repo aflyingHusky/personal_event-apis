@@ -6,7 +6,7 @@ import { Configurations } from './config'
 
 const config = new Configurations()
 
-const init = async () => {
+export const init = async () => {
   try {
     const app: express.Application = express()
     app.use(json())
@@ -25,7 +25,7 @@ const init = async () => {
   }
 }
 
-const start = async () => {
+export const start = async () => {
   try {
     const app = await init()
 

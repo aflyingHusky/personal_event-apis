@@ -2,8 +2,13 @@ import * as dotenv from 'dotenv'
 
 export class Configurations {
   constructor () {
+    const env = process.env.NODE_ENV || 'dev'
+    console.log(`Node env ${env}`)
+
+    const envFilePath = env === 'dev' ? '.env' : '.test.env'
+
     dotenv.config({
-      path: `${process.cwd()}/.env`,
+      path: `${process.cwd()}/${envFilePath}`,
     })
   }
 

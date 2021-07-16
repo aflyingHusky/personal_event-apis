@@ -1,4 +1,4 @@
-import { Document } from 'mongoose'
+import { Document, Types } from 'mongoose'
 
 export interface Events extends Document {
   eventName: string
@@ -25,7 +25,7 @@ export interface UpdateOneData {
 }
 
 export interface FindOneQuery {
-  _id?: string
+  _id?: Types.ObjectId | string
 }
 
 export interface FindManyQuery {

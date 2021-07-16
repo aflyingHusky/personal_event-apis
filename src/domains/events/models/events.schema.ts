@@ -7,11 +7,11 @@ export const EventsSchema = new mongoose.Schema(
     description: { type: String },
     startDate: { type: Date, default: new Date() },
     dueDate: { type: Date, required: true },
-    createdBy: { type: Types.ObjectId, ref: 'Users' },
+    createdBy: { type: Types.ObjectId, ref: 'users' },
   },
   {
     timestamps: true,
   },
 )
 
-export const EventsModel = mongoose.model('event', EventsSchema)
+export const EventsModel = mongoose.model('events', EventsSchema)

@@ -27,7 +27,7 @@ export class EventsService {
   async findOne({ query, credentials }: FindOneService): Promise<Events> {
     try {
       const { userId } = credentials
-      const event = await this.eventsModel.findOne({ ...query, userId })
+      const event = await this.eventsModel.findOne(query)
         .populate('createdBy')
         .exec()
 
@@ -35,6 +35,13 @@ export class EventsService {
         return Promise.reject({
           statusCode: 404,
           message: 'User Not Found!',
+        })
+      }
+
+      if (event.createdBy._id.toString() !== userId) {
+        return Promise.reject({
+          statusCode: 403,
+          message: 'No permission!',
         })
       }
 
@@ -47,12 +54,19 @@ export class EventsService {
   async updateOne({ query, updateData, credentials }: UpdateOneService): Promise<Events> {
     try {
       const { userId } = credentials
-      const event = await this.eventsModel.findOne({ ...query, userId }).exec()
+      const event = await this.eventsModel.findOne(query).exec()
 
       if (!event) {
         return Promise.reject({
           statusCode: 404,
           message: 'User Not Found!',
+        })
+      }
+
+      if (event.createdBy.toString() !== userId) {
+        return Promise.reject({
+          statusCode: 403,
+          message: 'No permission!',
         })
       }
 
@@ -69,12 +83,19 @@ export class EventsService {
   async deleteOne({ query, credentials }: FindOneService): Promise<boolean> {
     try {
       const { userId } = credentials
-      const event = await this.eventsModel.findOne({ ...query, userId }).exec()
+      const event = await this.eventsModel.findOne(query).exec()
 
       if (!event) {
         return Promise.reject({
           statusCode: 404,
           message: 'User Not Found!',
+        })
+      }
+
+      if (event.createdBy.toString() !== userId) {
+        return Promise.reject({
+          statusCode: 403,
+          message: 'No permission!',
         })
       }
 
@@ -96,7 +117,7 @@ export class EventsService {
         } as any
       }
 
-      const findingQuery = { createdBy: credentials.userId, ...restOfQuery }
+      const findingQuery = { ...restOfQuery }
 
       const promises: any = []
       promises.push(
@@ -108,11 +129,19 @@ export class EventsService {
         this.eventsModel.countDocuments(findingQuery)
         .exec())
 
-      const [events, totalCount] = await Promise.all(promises)
+      const [events, totalCount]: any = await Promise.all(promises)
+
+      const validEvents = events?.map(each => {
+        if (each.createdBy._id.toString() === credentials.userId) {
+          return each
+        }
+
+        return null
+      }) || []
 
       return {
         totalCount: totalCount || 0,
-        events: events || [],
+        list: validEvents,
       }
     } catch (error) {
       return Promise.reject()
