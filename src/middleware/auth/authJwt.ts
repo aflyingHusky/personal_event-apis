@@ -1,22 +1,43 @@
+import { Response, NextFunction } from 'express'
 import * as jwt from 'jsonwebtoken'
+import { UsersService } from '../../domains/users/users.service'
 import { Configurations } from '../../config'
 
 const configsService = new Configurations()
+const usersService = new UsersService()
+const unauthorizedError = {
+  statusCode: 401,
+  message: 'Unauthorized!',
+}
 
-export const verifyToken = (req, res, next) => {
+export const verifyToken = async (req, res: Response, next: NextFunction) => {
   try {
-    const accessToken = req.headers['x-access-token']
+    const BearerToken: string = req.headers.authorization
 
-    if (!accessToken) {
-      return res.status(401).send({ code: 401, message: 'Unauthorized!' })
+    if (!BearerToken) {
+      res.status(401).send(unauthorizedError)
     }
+
+    const accessToken = BearerToken.replace('Bearer ', '')
 
     const payload = jwt.verify(accessToken, configsService.jwt_secret)
 
-    req.userId = payload.userId
+    const user = await usersService.findOne({
+      query: { _id: payload.userId },
+      needToCheckExists: false,
+    })
+
+    if (!user) {
+      res.status(401).send(unauthorizedError)
+    }
+
+    req.user = {
+      userId: user._id,
+      fullName: user.fullName,
+    }
 
     next()
   } catch (error) {
-    res.code(401).send({ code: 401, message: 'Unauthorized!' })
+    res.status(401).send(unauthorizedError)
   }
 }

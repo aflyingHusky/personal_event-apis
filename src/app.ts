@@ -6,23 +6,26 @@ import { Configurations } from './config'
 
 const config = new Configurations()
 
-const init = async () => {
-  const app: express.Application = express()
-  app.use(json())
-  app.use(routes)
+export const init = async () => {
+  try {
+    const app: express.Application = express()
+    app.use(json())
+    app.use(routes)
 
-  await mongoose.connect(config.dbUri, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => {
+    await mongoose.connect(config.dbUri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
+
     console.log('Connect to database succeed! --------')
-  })
 
-  return app
+    return app
+  } catch (error) {
+    console.log('Failed to connect database')
+  }
 }
 
-const start = async () => {
+export const start = async () => {
   try {
     const app = await init()
 
