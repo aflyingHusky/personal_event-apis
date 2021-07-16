@@ -10,7 +10,7 @@ const unauthorizedError = {
   message: 'Unauthorized!',
 }
 
-export const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
+export const verifyToken = async (req, res: Response, next: NextFunction) => {
   try {
     const BearerToken: string = req.headers.authorization
 

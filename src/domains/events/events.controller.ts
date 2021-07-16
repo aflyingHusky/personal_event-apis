@@ -7,7 +7,7 @@ export class EventsController{
     EventsController.eventsService = new EventsService()
   }
 
-  async createEvent(req: Request, res: Response) {
+  async createEvent(req, res: Response) {
     try {
       const { body, user } = req
 
@@ -22,7 +22,7 @@ export class EventsController{
     }
   }
 
-  async findOneEvent(req: Request, res: Response) {
+  async findOneEvent(req, res: Response) {
     try {
       const { params, user } = req
       const event = await EventsController.eventsService.findOne({
@@ -36,7 +36,7 @@ export class EventsController{
     }
   }
 
-  async updateOneEvent(req: Request, res: Response) {
+  async updateOneEvent(req, res: Response) {
     try {
       const { params, user, body } = req
 
@@ -52,7 +52,7 @@ export class EventsController{
     }
   }
 
-  async deleteOneEvent(req: Request, res: Response) {
+  async deleteOneEvent(req, res: Response) {
     try {
       const { params, user } = req
 
@@ -67,7 +67,7 @@ export class EventsController{
     }
   }
 
-  async findManyEvents(req: Request, res: Response) {
+  async findManyEvents(req, res: Response) {
     try {
       const { query, user } = req
 
